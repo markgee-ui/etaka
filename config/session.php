@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use PhpOption\None;
 
 return [
 
@@ -18,7 +19,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+    'driver' => env('SESSION_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +74,7 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION'),
+    'connection' => env('SESSION_CONNECTION',null),
 
     /*
     |--------------------------------------------------------------------------
@@ -156,7 +157,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN',null),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,8 +169,9 @@ return [
     | the cookie from being sent to you when it can't be done securely.
     |
     */
-
-    'secure' => env('SESSION_SECURE_COOKIE'),
+     'secure' => env('SESSION_SECURE_COOKIE', true),
+      // Required for cross-site cookies (incognito or cross-origin requests)
+      //'secure' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -199,8 +201,10 @@ return [
     |
     */
 
-    'same_site' => env('SESSION_SAME_SITE', 'lax'),
-
+     'same_site' => env('SESSION_SAME_SITE', 'none'),
+     
+     //'same_site' => 'none',  // Required for cross-site cookies (incognito or cross-origin requests)
+                              // Change from 'lax' to null
     /*
     |--------------------------------------------------------------------------
     | Partitioned Cookies
@@ -213,5 +217,7 @@ return [
     */
 
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
+    
+ // 'strict' might block CSRF, lax is safer for cross-origin redirects
 
 ];
